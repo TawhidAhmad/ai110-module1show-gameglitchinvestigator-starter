@@ -25,14 +25,14 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [The games purpose is to simulate a number guessing game.] Describe the game's purpose.
+- [I found bugs with logic for when the answer is incorrect (Showing higher when should be lower and lower for when it needed to be higher), secret not changing when difficulty changes, secret is not in the range of the difficulty, and Normal and Hard difficulties were flipped.] Detail which bugs you found.
+- [I applied fixes to the logic for when the answer is incorrect answers by flipped the message for higher and lower, definied that the secret is initialized inside the range and resets when difficulty is first selected, and then swapped Normal and Hard difficulties.] Explain what fixes you applied.
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+- [![alt text](image.png)] [Insert a screenshot of your fixed, winning game here]
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]
+- [N/A] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]

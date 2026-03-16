@@ -4,10 +4,13 @@ import streamlit as st
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
         return 1, 20
+    # FIXME: Logic breaks here
+    # FIX: Normal and Hard ranges swapped.
     if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
         return 1, 50
+    if difficulty == "Hard":
+        return 1, 100
+    
     return 1, 100
 
 
@@ -26,6 +29,11 @@ def parse_guess(raw: str):
     except Exception:
         return False, None, "That is not a number."
 
+    # FIXME: Logic breaks here
+    # FIX: There is no range check for numbers outside of difficulty range.
+    if value < low or value > high:
+          return False, None, f"Please enter a number between {low} and {high}."
+
     return True, value, None
 
 
@@ -35,16 +43,18 @@ def check_guess(guess, secret):
 
     try:
         if guess > secret:
-            return "Too High", "📈 Go HIGHER!"
+        # FIXME: Logic breaks here
+        # FIX: hint messages were flipped 
+            return "Too High", "📉 Go LOWER!" 
         else:
-            return "Too Low", "📉 Go LOWER!"
+            return "Too Low", "📈 Go HIGHER!"
     except TypeError:
         g = str(guess)
         if g == secret:
             return "Win", "🎉 Correct!"
         if g > secret:
-            return "Too High", "📈 Go HIGHER!"
-        return "Too Low", "📉 Go LOWER!"
+            return "Too High", "📉 Go LOWER!"
+        return "Too Low", "📈 Go HIGHER!"
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
@@ -89,8 +99,11 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
-if "secret" not in st.session_state:
+# FIXME: Logic breaks here
+# FIX: Secret number was not reset when changing difficulty.
+if "secret" not in st.session_state or st.session_state.get("difficulty") != difficulty:
     st.session_state.secret = random.randint(low, high)
+    st.session_state.difficulty = difficulty
 
 if "attempts" not in st.session_state:
     st.session_state.attempts = 1
@@ -133,7 +146,9 @@ with col3:
 
 if new_game:
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    # FIXME: Logic breaks here
+    # FIX: Secret number was not in the range of the selected difficulty.
+    st.session_state.secret = random.randint(low, high)
     st.success("New game started.")
     st.rerun()
 
